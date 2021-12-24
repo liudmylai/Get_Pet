@@ -10,7 +10,9 @@
   <!-- Google fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Montserrat:wght@400;700&family=Pacifico&family=Roboto&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Montserrat:wght@400;700&family=Pacifico&family=Roboto&display=swap"
+    rel="stylesheet">
 
   <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/c8db5b8994.js" crossorigin="anonymous"></script>
@@ -24,34 +26,30 @@
 
 <body>
 
-
   <!-- Nav Bar -->
-  <nav class="navbar navbar-expand-lg navbar-light">
-
-    <a class="navbar-brand" href="#">Get-a-Pet</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pets</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
-
-      </ul>
+  <nav class="navbar fixed-top navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="images/logo.png" alt="logo-image" width="50">
+        Get-a-Pet</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">PetFinder</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
     </div>
-
   </nav>
-
-
-
 
   <!-- Title -->
   <section id="title">
@@ -60,18 +58,19 @@
         <div class="col-xxl-8 col-xl-10 text-center">
           <div class="title-heading mt-5 pt-4">
             <h1>There's a pet near you that needs some love</h1>
-            <p class="text-black-50">Find pets in and around your area that need a new home. Enter in some details, press search, and start a
+            <p class="text-black-50">Find pets in and around your area that need a new home. Enter in some details,
+              press search, and start a
               new chapter in your life.</p>
-              <div class="text-center search-form">
-                <input type="text" class="form-control rounded-pill" placeholder="Search for a pet">
-                <button class="btn btn-primary rounded-pill" type="button" id="search-button">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
+            <div class="text-center search-form">
+              <input type="text" class="form-control rounded-pill" placeholder="Search for a pet">
+              <button class="btn btn-primary rounded-pill" type="button" id="search-button">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-     </div>
+    </div>
   </section>
 
 

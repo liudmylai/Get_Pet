@@ -3,17 +3,13 @@
 }
  /* Title */
 h1 {
-    /* font-family: 'Montserrat', sans-serif; */
     font-family: 'Fredericka the Great', cursive;
-
     line-height: 1.5;
-    /* font-weight: bold; */
-    font-size: 3.5rem;
-    margin-bottom: 3rem;
+    font-size: 4rem;
+    margin: 3rem 0;
 }
 h2 {
     font-family: 'Montserrat', sans-serif;
-
 }
 #title p {
     font-size: 1.5rem;
@@ -24,7 +20,6 @@ h2 {
     margin: 3rem auto 0;
 }
 .search-form input {
-    /* flex: 1 1 auto; */
     width: 100%;
     padding: 1rem 10rem 1rem 2rem;
     border: none;
@@ -41,30 +36,34 @@ h2 {
 .search-form button:hover {
     background-color: #FF6701;
 } 
-    
-
-.title-img {
-    margin-top: 145px ;
-}
 .container-fluid {
-    padding: 3% 10% 7%;
+    padding: 1% 15%;
     background-color: #FCECDD;
 }
+
 /* Navigation Bar */
 .navbar {
-    padding: 0 0 2.5rem ;
+    padding: 0 0 2.5rem;
+}
+.navbar a {
+    color: #000;
 }
 .navbar-brand {
-    /* font-family: 'Ubuntu', sans-serif; */
-    font-size: 1.5rem;
+    font-family: 'Pacifico', sans-serif;
+    font-size: 2rem;
 }
 .nav-item {
     padding: 0 18px;
 }
 .nav-link {
     font-size: 1.2rem;
-    /* font-weight: 300; */
+    color: #000;
 }
+.nav-link.active,
+.nav-link:hover {
+    color: #FF6701;
+}
+
 
 /* Feature Section */
 #features {
