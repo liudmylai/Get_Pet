@@ -1,0 +1,120 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+ /* Title */
+h1 {
+    /* font-family: 'Montserrat', sans-serif; */
+    font-family: 'Fredericka the Great', cursive;
+
+    line-height: 1.5;
+    /* font-weight: bold; */
+    font-size: 3.5rem;
+    margin-bottom: 3rem;
+}
+h2 {
+    font-family: 'Montserrat', sans-serif;
+
+}
+#title p {
+    font-size: 1.5rem;
+}
+.search-form {
+    position: relative;
+    max-width: 600px;
+    margin: 3rem auto 0;
+}
+.search-form input {
+    /* flex: 1 1 auto; */
+    width: 100%;
+    padding: 1rem 10rem 1rem 2rem;
+    border: none;
+}
+.search-form button {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    font-size: 1rem;
+    padding: 0.8rem 1.2rem;
+    background-color: #FEA82F;
+    border: none;
+}
+.search-form button:hover {
+    background-color: #FF6701;
+} 
+    
+
+.title-img {
+    margin-top: 145px ;
+}
+.container-fluid {
+    padding: 3% 10% 7%;
+    background-color: #FCECDD;
+}
+/* Navigation Bar */
+.navbar {
+    padding: 0 0 2.5rem ;
+}
+.navbar-brand {
+    /* font-family: 'Ubuntu', sans-serif; */
+    font-size: 1.5rem;
+}
+.nav-item {
+    padding: 0 18px;
+}
+.nav-link {
+    font-size: 1.2rem;
+    /* font-weight: 300; */
+}
+
+/* Feature Section */
+#features {
+    padding: 7% 10%;
+    background-color: #fff;
+    position: relative;
+}
+.feature-box {
+    text-align: center;
+    padding: 5%;
+}
+.icon {
+    color: #FEA82F;
+    margin-bottom: 1rem;
+}
+.icon:hover {
+    color: #FF6701;
+}
+
+/* Testimonial Section */
+
+#testimonials {
+    text-align: center;
+    background-color: #FCECDD;
+    color: #FF6701;
+}
+.testimonial-image {
+    width: 10%;
+    border-radius: 100%;
+    margin: 20px;
+}
+.carousel-item {
+    padding: 7% 10%;
+}
+/* Pricing Section
+
+#pricing {
+    padding: 100px;
+    text-align: center;
+}
+.pricing-column {
+    padding: 3% 2%;
+} */
+
+/* Footer Section*/
+
+#footer {
+    padding: 7% 15%;
+    text-align: center;
+}
+.social-icon {
+    margin: 20px 10px;
+}
