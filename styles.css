@@ -45,9 +45,6 @@ h2 {
 .navbar {
     padding: 0 0 2.5rem;
 }
-.navbar a {
-    color: #000;
-}
 .navbar-brand {
     font-family: 'Pacifico', sans-serif;
     font-size: 2rem;
@@ -61,7 +58,7 @@ h2 {
 }
 .nav-link.active,
 .nav-link:hover {
-    color: #FF6701;
+    color: #FF6701 !important;
 }
 
 /* Pets Image Section */
@@ -74,7 +71,6 @@ h2 {
     margin-bottom: -115px;
 }
 
-
 /* Feature Section */
 #features {
     padding: 7% 10%;
@@ -84,12 +80,20 @@ h2 {
     text-align: center;
     padding: 5%;
 }
-.icon {
-    color: #FEA82F;
-    margin-bottom: 1rem;
+.circle {
+    background-color: #FCECDD;
+    width: 15rem;
+    height: 15rem;
+    border-radius: 100%;
+    margin: 0 auto;
 }
-.icon:hover {
-    color: #FF6701;
+.circle:hover {
+    background-color: #FEA82F;
+    color: #fff;
+    cursor: pointer;
+}
+.icon {
+    margin: 2.5rem 0 1rem;
 }
 
 /* Testimonial Section */
