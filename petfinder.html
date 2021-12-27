@@ -74,10 +74,11 @@
                             <option value="25">25 miles</option>
                             <option value="50">50 miles</option>
                             <option value="100">100 miles</option>
-                            <option value="500">Anywhere</option>
+                            <option value="500" selected="selected">Anywhere</option>
                         </select>
-                        <input type="text" class="form-control" id="pf-search-location"
-                            placeholder="Enter City, State or ZIP">
+                        <input type="text" class="form-control" list="locationOptions" id="pf-search-location"
+                            placeholder="Enter City, State or ZIP" autoComplete="off">
+                            <datalist id="locationOptions"></datalist>
 
                         <button class="btn btn-outline-secondary" id="pf-search-btn" type="button">Search</button>
                     </div>
@@ -118,6 +119,9 @@
 
 
     <script src="app.js"></script>
+
+    <!-- Geolocation Onetrust Script -->
+    <script src="https://geolocation.onetrust.com/cookieconsentpub/v1/geo/location/getUserLocation"></script>
 </body>
 
 </html>

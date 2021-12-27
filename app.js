@@ -1,6 +1,22 @@
 // local storage to keep data
 let storage = [];
 
+// user location
+let userLocation = {};
+
+// function to get longtitude and latitude from geolocation.onetrust.com
+// @return location object
+// { "country":"US"
+//  , "state":"OH"
+//  , "stateName":"Ohio"
+//  , "zipcode":"45236"
+//  , "timezone":"America/New_York"
+//  , "latitude":"39.20410"
+//  , "longitude":"-84.39680"
+//  , "city":"Cincinnati"
+//  , "continent":"NA"
+//  })
+const getUserLocation = (location) => userLocation = location;
 
 // function to get an access token
 const getAccessToken = () => {
@@ -51,7 +67,11 @@ const displayResults = data => {
 
 // function to perform search request on PetFinder.com
 const pfSearch = token => {
-    const url = 'https://api.petfinder.com/v2/animals';
+    const type = document.getElementById('pf-search-category').value;
+    const distance = document.getElementById('pf-search-distance').value;
+    const location = document.getElementById('pf-search-location').value;
+    // use encodeURI to encode space characters in location (city, state)
+    const url = encodeURI(`https://api.petfinder.com/v2/animals?type=${type}&distance=${distance}&location=${location}`);
 
     const options = {
         method: 'GET',
@@ -74,12 +94,12 @@ const petFinder = () => {
         // get an access token asynchronously
         getAccessToken()
     ))
-    .then(token => pfSearch(token))
+        .then(token => pfSearch(token))
 }
 
 // function to convert animal photo to HTML-fragment
-const animalPhoto = (src, alt, isActive) => 
-    `<div class="carousel-item ${isActive?'active':''} photo-item">
+const animalPhoto = (src, alt, isActive) =>
+    `<div class="carousel-item ${isActive ? 'active' : ''} photo-item">
     <div class="card-media">
         <img src="${src}"
             class="card-img d-block w-100" alt="${alt}">
@@ -88,12 +108,12 @@ const animalPhoto = (src, alt, isActive) =>
 
 // function to show detailed information about pet in the modal window
 const showAnimalInfo = id => {
-    const animal = storage.find(element=>element.id===id);
+    const animal = storage.find(element => element.id === id);
     if (Object.keys(animal).length === 0) {
         return;
     }
 
-    const photos = animal.photos.map((photo,index)=>animalPhoto(photo.large, animal.name + '-photo-' + index, index===0)).join('');
+    const photos = animal.photos.map((photo, index) => animalPhoto(photo.large, animal.name + '-photo-' + index, index === 0)).join('');
 
     document.getElementById('pf-animal-details').innerHTML =
         `<div class="modal-header">
@@ -116,15 +136,15 @@ const showAnimalInfo = id => {
             <div class="animal-details">
                 <h2>Meet ${animal.name}</h2>
                 <p>${(animal.breeds.mixed) ? 'Mixed Breed' : animal.breeds.primary} &#65121; ${animal.contact.address.city}, ${animal.contact.address.state}</p>
-                <p>${animal.age} &#65121; ${animal.gender} &#65121; ${animal.size} &#65121; ${Object.values(animal.colors).filter(color=>color!==null).join(', ')}</p>
+                <p>${animal.age} &#65121; ${animal.gender} &#65121; ${animal.size} &#65121; ${Object.values(animal.colors).filter(color => color !== null).join(', ')}</p>
                 <h4>About</h4>
                 <p>${animal.description}</p>
                 <h4>Characteristics</h4>
                 <p>${animal.tags.join(', ')}</p>
                 <h4>Good in a home with</h4>
-                <p>${Object.entries(animal.environment).filter((env)=>env[1]===true).map((env)=>env[0]).join(', ')}</p>
+                <p>${Object.entries(animal.environment).filter((env) => env[1] === true).map((env) => env[0]).join(', ')}</p>
                 <h4>Prefers a home without</h4>
-                <p>${Object.entries(animal.environment).filter((env)=>env[1]===false).map((env)=>env[0]).join(', ')}</p>
+                <p>${Object.entries(animal.environment).filter((env) => env[1] === false).map((env) => env[0]).join(', ')}</p>
             </div>
         </div>
         <div class="modal-footer">
@@ -132,4 +152,30 @@ const showAnimalInfo = id => {
         </div>`
 }
 
+// function to get the list of location suggestions for user input
+const setLocation = (event) => {
+    const input = event.target;
+    // get suggestions when input more than 2 characters
+    if (input.value.length > 2) {
+        const url = `https://www.petfinder.com/v2/geography/search/?q=${input.value}&lat=${userLocation.latitude}&lng=${userLocation.longitude}`;
+        // fetch request to get allowed locations from PetFinder.com
+        fetch(url)
+            // transform response to data-object
+            .then((res) => res.json())
+            // transform data to HTML-fragments of Datalist options
+            .then((data) => data.locations.map((loc) => `<option value="${loc.display_name}">`).join(''))
+            // put options to Datalist
+            .then((options) => document.getElementById('locationOptions').innerHTML = options)
+            // Problem: browser attempts to show the datalist before the options are put into Datalist.
+            // This results in the list not being shown or sometimes a partial list being shown
+            // Workaround: trigger a refresh of the rendered datalist using focus()
+            // Source: https://stackoverflow.com/questions/26610752/how-do-you-refresh-an-html5-datalist-using-javascript
+            .finally(() => setTimeout(() => input.focus(), 100))
+    }
+}
+
+
 document.getElementById('pf-search-btn').addEventListener('click', petFinder);
+
+
+document.getElementById('pf-search-location').addEventListener('input', setLocation);
