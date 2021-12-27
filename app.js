@@ -1,5 +1,5 @@
 // local storage to keep data
-const storage = [];
+let storage = [];
 
 
 // function to get an access token
@@ -24,7 +24,7 @@ const getAccessToken = () => {
 // function to convert animal object to HTML-fragment
 const animalCard = animal =>
     `<div class="pf-search-column col-lg-3 col-md-4">
-    <div class="card">
+    <div class="card" onclick="showAnimalInfo(${animal.id})" data-bs-toggle="modal" data-bs-target="#pf-animal-modal">
         <div class="card-media">
             <img src="${(animal.primary_photo_cropped !== null && 'small' in animal.primary_photo_cropped) ? animal.primary_photo_cropped.small : 'images/card-placeholder.png'}"
             class="card-img" alt="${animal.name}-image">
@@ -37,7 +37,10 @@ const animalCard = animal =>
     </div>
 </div>`
 // function to store data
-const storeData = data => storage = data.animals.slice();
+const storeData = data => {
+    storage = data.animals.slice();
+    return storage;
+}
 
 // function to display results
 const displayResults = data => {
@@ -71,12 +74,62 @@ const petFinder = () => {
         // get an access token asynchronously
         getAccessToken()
     ))
-        .then(token => pfSearch(token))
-}
-// function to show detailed information about pet in the modal window
-const showAnimalInfo = id => {
-    
+    .then(token => pfSearch(token))
 }
 
-// document.getElementById('pf-search-btn').addEventListener('click', petFinder);
-document.getElementById('pf-search-btn').addEventListener('click', showAnimalInfo);
+// function to convert animal photo to HTML-fragment
+const animalPhoto = (src, alt, isActive) => 
+    `<div class="carousel-item ${isActive?'active':''} photo-item">
+    <div class="card-media">
+        <img src="${src}"
+            class="card-img d-block w-100" alt="${alt}">
+    </div>
+</div>`;
+
+// function to show detailed information about pet in the modal window
+const showAnimalInfo = id => {
+    const animal = storage.find(element=>element.id===id);
+    if (Object.keys(animal).length === 0) {
+        return;
+    }
+
+    const photos = animal.photos.map((photo,index)=>animalPhoto(photo.large, animal.name + '-photo-' + index, index===0)).join('');
+
+    document.getElementById('pf-animal-details').innerHTML =
+        `<div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-0">
+            <!-- Carousel -->
+            <div id="pf-animal-photos" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-inner">${photos}</div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#pf-animal-photos"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#pf-animal-photos"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+            <!-- About Info -->
+            <div class="animal-details">
+                <h2>Meet ${animal.name}</h2>
+                <p>${(animal.breeds.mixed) ? 'Mixed Breed' : animal.breeds.primary} &#65121; ${animal.contact.address.city}, ${animal.contact.address.state}</p>
+                <p>${animal.age} &#65121; ${animal.gender} &#65121; ${animal.size} &#65121; ${Object.values(animal.colors).filter(color=>color!==null).join(', ')}</p>
+                <h4>About</h4>
+                <p>${animal.description}</p>
+                <h4>Characteristics</h4>
+                <p>${animal.tags.join(', ')}</p>
+                <h4>Good in a home with</h4>
+                <p>${Object.entries(animal.environment).filter((env)=>env[1]===true).map((env)=>env[0]).join(', ')}</p>
+                <h4>Prefers a home without</h4>
+                <p>${Object.entries(animal.environment).filter((env)=>env[1]===false).map((env)=>env[0]).join(', ')}</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="${animal.url}" target="_blank" class="btn btn-primary" role="button">More About ${animal.name}</a>
+        </div>`
+}
+
+document.getElementById('pf-search-btn').addEventListener('click', petFinder);
