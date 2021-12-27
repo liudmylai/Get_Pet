@@ -9,3 +9,6 @@ There are many pets in and around your area that need some love. **Let's help th
 - Use the fetch method to make an asynchronous call to a third-party API. This API should be related to your project in some way
 - Use the data you get back to add content to your web pages with what you've learned in JavaScript
 - Add your personal touch or style to the CSS
+
+### Live Preview
+https://liudmylai.github.io/Get_Pet/
