@@ -106,7 +106,7 @@ h1 {
     border-radius: 100%;
     margin: 20px;
 }
-.carousel-item {
+.testimonial-item {
     padding: 7% 15%;
 }
 
@@ -159,4 +159,22 @@ h1 {
     top: 0;
     left: 0;
     object-fit: cover;
+}
+/* Detailed Animal Info */
+.photo-item {
+    padding: 0 15%;
+    max-height: 85vh;
+}
+.modal-body h2 {
+    /* margin-top: 5%; */
+    font-weight: bold;
+}
+.modal-body h4 {
+    /* margin-top: 5%; */
+    font-weight: bold;
+    font-size: 1rem;
+}
+.animal-details {
+    padding: 2% 15%;
+
 }

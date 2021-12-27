@@ -96,6 +96,14 @@
 
     </section>
 
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pf-animal-details">
+        Test Animal Modal
+    </button>
+
+
+
     <!-- Footer -->
 
     <footer id="footer">
@@ -105,6 +113,79 @@
         <a href="#"><i class="social-icon fas fa-envelope"></i></a>
         <p>© Copyright 2022 Get-a-Pet</p>
     </footer>
+
+    <!-- Modal Windows  -->
+
+
+
+    <!-- Detailed Animal Info -->
+    <div class="modal fade" id="pf-animal-details" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <!-- Carousel -->
+                    <div id="pf-animal-photos" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item photo-item active">
+                                <div class="card-media">
+                                    <img src="https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54009890/1/?bust=1640474533&width=600"
+                                        class="card-img d-block w-100" alt="...">
+                                </div>
+                            </div>
+                            <div class="carousel-item photo-item">
+                                <div class="card-media">
+                                    <img src="https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54009890/2/?bust=1640474534&width=600"
+                                        class="card-img d-block w-100" alt="...">
+                                </div>
+                            </div>
+                            <div class="carousel-item photo-item">
+                                <div class="card-media">
+                                    <img src="https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54009890/3/?bust=1640474534&width=600"
+                                        class="card-img d-block w-100" alt="...">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#pf-animal-photos"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#pf-animal-photos"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                    <!-- About Info -->
+                    <div class="animal-details">
+                        <h2 id="pf-animal-name">Meet Bubby</h2>
+                        <p id="pf-animal-line1">Mixed Breed Cincinnati, OH</p>
+                        <p id="pf-animal-line2">Young Male Medium Black, White / Cream</p>
+                        <h4>About</h4>
+                        <p id="pf-animal-descr">Out-of-town pets are cared for by non-local organizations who can make
+                            arrangements for the pet to be transported to your area</p>
+                        <h4>Characteristics</h4>
+                        <p id="pf-animal-attr">Friendly, Affectionate, Playful, Loves kisses, Smart, Couch potato</p>
+                        <h4>Good in a home with</h4>
+                        <p id="pf-animal-env-with">Other dogs</p>
+                        <h4>Prefers a home without</h4>
+                        <p id="pf-animal-env-without">Cats</p>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+
+                    <a href="https://www.petfinder.com/dog/polly-54009890/wi/union-grove/tiny-paws-small-dog-rescue-wi320/?referrer_id=12a7dc5f-e021-44d4-bd20-c882a1c4f058"
+                        target="_blank" class="btn btn-primary" role="button">More About Bubby</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="app.js"></script>
 </body>
