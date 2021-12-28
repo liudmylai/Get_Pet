@@ -58,7 +58,7 @@
                 <div class="col">
                     <div class="input-group mt-5 pt-5">
                         <select class="form-select" id="pf-search-category">
-                            <option selected>Category...</option>
+                            <option value="" selected>Category...</option>
                             <option value="dog">Dogs</option>
                             <option value="cat">Cats</option>
                             <option value="rabbit">Rabbits</option>
@@ -69,17 +69,16 @@
                             <option value="barnyard">Barnyard</option>
                         </select>
                         <select class="form-select" id="pf-search-distance">
-                            <option selected>Distance...</option>
+                            <option value="" selected>Distance...</option>
                             <option value="10">10 miles</option>
                             <option value="25">25 miles</option>
                             <option value="50">50 miles</option>
                             <option value="100">100 miles</option>
-                            <option value="500" selected="selected">Anywhere</option>
+                            <option value="500">Anywhere</option>
                         </select>
                         <input type="text" class="form-control" list="locationOptions" id="pf-search-location"
                             placeholder="Enter City, State or ZIP" autoComplete="off">
                             <datalist id="locationOptions"></datalist>
-
                         <button class="btn btn-outline-secondary" id="pf-search-btn" type="button">Search</button>
                     </div>
                 </div>

@@ -63,7 +63,9 @@
               press search, and start a
               new chapter in your life.</p>
             <div class="text-center search-form">
-              <input type="text" class="form-control rounded-pill" placeholder="Search for a pet">
+              <input type="text" class="form-control rounded-pill" list="locationOptions" id="search-location"
+              placeholder="Enter City, State or ZIP" autoComplete="off">
+              <datalist id="locationOptions"></datalist>
               <button class="btn btn-primary rounded-pill" type="button" id="search-button">
                 <i class="fas fa-search"></i>
               </button>
@@ -146,8 +148,15 @@
     <a href="#"><i class="social-icon fab fa-twitter"></i></a>
     <a href="#"><i class="social-icon fab fa-instagram"></i></a>
     <a href="#"><i class="social-icon fas fa-envelope"></i></a>
-    <p>© Copyright 2022 Get-a-Pet - Powered by <a href="https://www.petfinder.com/developers/" target="_blank">Petfinder API</a></p>
+    <p>© Copyright 2022 Get-a-Pet - Powered by <a href="https://www.petfinder.com/developers/" target="_blank">Petfinder
+        API</a></p>
   </footer>
+
+
+  <script src="app.js"></script>
+
+  <!-- Geolocation Onetrust Script -->
+  <script src="https://geolocation.onetrust.com/cookieconsentpub/v1/geo/location/getUserLocation"></script>
 
 </body>
 

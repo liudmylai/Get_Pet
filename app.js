@@ -60,18 +60,36 @@ const storeData = data => {
 
 // function to display results
 const displayResults = data => {
-    document.getElementById('pf-result-heading').innerHTML = `We found ${data.pagination.total_count} pets`;
+    let location = document.getElementById('pf-search-location').value;
+    if (location === "") {
+        location = userLocation.city + ', ' + userLocation.state;
+    }
+
+    document.getElementById('pf-result-heading').innerHTML = `We found ${data.pagination.total_count} pets near ${location}`;
     document.getElementById('pf-animal-cards').innerHTML = data.animals.map(animal => animalCard(animal)).join('');
     return data;
 }
 
 // function to perform search request on PetFinder.com
 const pfSearch = token => {
+    const parameters = [];
     const type = document.getElementById('pf-search-category').value;
+    if (type !== "") {
+        parameters.push('type=' + type);
+    }
     const distance = document.getElementById('pf-search-distance').value;
+    if (distance !== "") {
+        parameters.push('distance=' + distance);
+    }
     const location = document.getElementById('pf-search-location').value;
+    if (location !== "") {
+        parameters.push('location=' + location);
+    } else {
+        parameters.push('location=' + userLocation.city + ', ' + userLocation.state);
+    }
+
     // use encodeURI to encode space characters in location (city, state)
-    const url = encodeURI(`https://api.petfinder.com/v2/animals?type=${type}&distance=${distance}&location=${location}`);
+    const url = encodeURI(`https://api.petfinder.com/v2/animals?${parameters.join('&')}`);
 
     const options = {
         method: 'GET',
@@ -174,8 +192,39 @@ const setLocation = (event) => {
     }
 }
 
+const startSearch = (event) => {
+    switch (event.target.id) {
+        case 'search-button':
+            // save location to sessionStorage
+            window.sessionStorage.setItem('location', document.getElementById('search-location').value);
+            // redirect to petfinder.html
+            window.location.href = './petfinder.html';
+            break;
+    }
+}
 
-document.getElementById('pf-search-btn').addEventListener('click', petFinder);
+// function to identify name of the loaded page and perform particular actions
+window.addEventListener('load', (event) => {
+    let pathArray = window.location.pathname.split('/');
+    switch (pathArray[pathArray.length - 1]) {
+        case 'petfinder.html':
 
 
-document.getElementById('pf-search-location').addEventListener('input', setLocation);
+
+            document.getElementById('pf-search-btn').addEventListener('click', petFinder);
+            document.getElementById('pf-search-location').addEventListener('input', setLocation);
+            // Get saved data from sessionStorage
+            document.getElementById('pf-search-location').value = window.sessionStorage.getItem('location');
+            petFinder();
+            break;
+        case 'contact.html':
+            break;
+        default:
+            // Remove all saved data from sessionStorage
+            sessionStorage.clear();
+            document.getElementById('search-location').addEventListener('input', setLocation);
+            document.getElementById('search-button').addEventListener('click', startSearch);
+            break;
+    }
+})
+

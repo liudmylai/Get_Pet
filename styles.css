@@ -20,7 +20,7 @@ h1 {
 }
 .search-form input {
     width: 100%;
-    padding: 1rem 10rem 1rem 2rem;
+    padding: 1rem 2rem;
     border: none;
 }
 .search-form button {
