@@ -142,7 +142,12 @@ h1 {
 .pf-search-column {
     padding: 3% 2%;
 }
-
+.animal-card {
+    cursor: pointer;
+}
+.animal-card:hover {
+    box-shadow: 0 0 15px 5px #fea82f;
+}
 .card-media {
     position: relative;
 }
@@ -160,6 +165,7 @@ h1 {
     left: 0;
     object-fit: cover;
 }
+
 /* Detailed Animal Info */
 .photo-item {
     padding: 0 15%;

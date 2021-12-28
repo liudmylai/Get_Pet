@@ -40,7 +40,7 @@ const getAccessToken = () => {
 // function to convert animal object to HTML-fragment
 const animalCard = animal =>
     `<div class="pf-search-column col-lg-3 col-md-4">
-    <div class="card" onclick="showAnimalInfo(${animal.id})" data-bs-toggle="modal" data-bs-target="#pf-animal-modal">
+    <div class="card animal-card" onclick="showAnimalInfo(${animal.id})" data-bs-toggle="modal" data-bs-target="#pf-animal-modal">
         <div class="card-media">
             <img src="${(animal.primary_photo_cropped !== null && 'small' in animal.primary_photo_cropped) ? animal.primary_photo_cropped.small : 'images/card-placeholder.png'}"
             class="card-img" alt="${animal.name}-image">
@@ -48,7 +48,7 @@ const animalCard = animal =>
         <div class="card-body">
             <h5 class="card-title">${animal.name}</h5>
             <p class="card-text">${animal.age} - ${(animal.breeds.mixed) ? 'Mixed Breed' : animal.breeds.primary}</p>
-            <p class="card-text"><small class="text-muted">${(animal.distance === null) ? '' : animal.distance + ' mile away'}</small></p>
+            <p class="card-text"><small class="text-muted">${(animal.distance === null) ? '' : Math.ceil(animal.distance) + ' mile away'}</small></p>
         </div>
     </div>
 </div>`
@@ -148,7 +148,7 @@ const showAnimalInfo = id => {
             </div>
         </div>
         <div class="modal-footer">
-            <a href="${animal.url}" target="_blank" class="btn btn-primary" role="button">More About ${animal.name}</a>
+            <a href="${animal.url}" target="_blank" class="btn btn-primary" role="button">More About ${animal.name} on Petfinder</a>
         </div>`
 }
 
