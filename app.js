@@ -200,6 +200,19 @@ const startSearch = (event) => {
             // redirect to petfinder.html
             window.location.href = './petfinder.html';
             break;
+        case 'dog-feature':
+        case 'cat-feature':
+        case 'rabbit-feature':
+        case 'small-furry-feature':
+        case 'horse-feature':
+        case 'bird-feature':
+        case 'scales-fins-other':
+        case 'barnyard-feature':
+            // save location to sessionStorage
+            window.sessionStorage.setItem('type', event.target.dataset.pfType);
+            // redirect to petfinder.html
+            window.location.href = './petfinder.html';
+            break;
     }
 }
 
@@ -208,22 +221,30 @@ window.addEventListener('load', (event) => {
     let pathArray = window.location.pathname.split('/');
     switch (pathArray[pathArray.length - 1]) {
         case 'petfinder.html':
-
-
-
+            // start search function by clicking on the 'Search' button
             document.getElementById('pf-search-btn').addEventListener('click', petFinder);
+            // trigger location suggestions for user input
             document.getElementById('pf-search-location').addEventListener('input', setLocation);
-            // Get saved data from sessionStorage
+            // get saved data from sessionStorage
             document.getElementById('pf-search-location').value = window.sessionStorage.getItem('location');
+            document.getElementById('pf-search-category').value = window.sessionStorage.getItem('type');
             petFinder();
             break;
         case 'contact.html':
             break;
         default:
-            // Remove all saved data from sessionStorage
+            // remove all saved data from sessionStorage
             sessionStorage.clear();
+            // trigger location suggestions for user input
             document.getElementById('search-location').addEventListener('input', setLocation);
-            document.getElementById('search-button').addEventListener('click', startSearch);
+            // collect all search items and trigger 'startSearch' function for each of them on click
+            document.querySelectorAll('.search-item')
+                .forEach(element => element.addEventListener('click', startSearch));
+            // toggle 'other pets' dropdown list by clicking
+            document.querySelectorAll('.other-pets')
+                .forEach(element => element.addEventListener('click', () =>
+                    bootstrap.Dropdown.getOrCreateInstance(document.getElementById('other-pets-dropdown')).toggle()
+                ));
             break;
     }
 })

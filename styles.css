@@ -75,6 +75,20 @@ h1 {
     padding: 7% 10%;
     background-color: #fff;
 }
+
+#features h2 {
+    font-size: 1.5rem;
+}
+
+#features ul {
+    padding: 1rem;
+}
+#features li {
+    margin: 0.5rem;
+}
+#features li:hover {
+    color: #FEA82F;
+}
 .feature-box {
     text-align: center;
     padding: 5%;
@@ -92,7 +106,16 @@ h1 {
     cursor: pointer;
 }
 .icon {
-    margin: 2.5rem 0 1rem;
+    margin: 2.5rem 0 1.5rem;
+}
+.feature-dropdown,
+.feature-dropdown:focus {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+.circle:hover .feature-dropdown {
+    color: #fff !important;
 }
 
 /* Testimonial Section */
