@@ -4,6 +4,9 @@ let storage = [];
 // user location
 let userLocation = {};
 
+// next page URL for lazy pagination
+let nextPageUrl;
+
 // function to get longtitude and latitude from geolocation.onetrust.com
 // @return location object
 // { "country":"US"
@@ -54,7 +57,11 @@ const animalCard = animal =>
 </div>`
 // function to store data
 const storeData = data => {
-    storage = data.animals.slice();
+    if (storage.length > 0) {
+        storage = storage.concat(data.animals.slice());
+    } else {
+        storage = data.animals.slice();
+    }
     return storage;
 }
 
@@ -64,32 +71,14 @@ const displayResults = data => {
     if (location === "") {
         location = userLocation.city + ', ' + userLocation.state;
     }
-
+    nextPageUrl = `https://api.petfinder.com${data.pagination._links.next.href}`;
     document.getElementById('pf-result-heading').innerHTML = `We found ${data.pagination.total_count} pets near ${location}`;
-    document.getElementById('pf-animal-cards').innerHTML = data.animals.map(animal => animalCard(animal)).join('');
+    document.getElementById('pf-animal-cards').innerHTML += data.animals.map(animal => animalCard(animal)).join('');
     return data;
 }
 
 // function to perform search request on PetFinder.com
-const pfSearch = token => {
-    const parameters = [];
-    const type = document.getElementById('pf-search-category').value;
-    if (type !== "") {
-        parameters.push('type=' + type);
-    }
-    const distance = document.getElementById('pf-search-distance').value;
-    if (distance !== "") {
-        parameters.push('distance=' + distance);
-    }
-    const location = document.getElementById('pf-search-location').value;
-    if (location !== "") {
-        parameters.push('location=' + location);
-    } else {
-        parameters.push('location=' + userLocation.city + ', ' + userLocation.state);
-    }
-
-    // use encodeURI to encode space characters in location (city, state)
-    const url = encodeURI(`https://api.petfinder.com/v2/animals?${parameters.join('&')}`);
+const pfSearch = (token, url) => {
 
     const options = {
         method: 'GET',
@@ -106,13 +95,39 @@ const pfSearch = token => {
 }
 
 // main function to search and display result
-const petFinder = () => {
+const myFetch = (url) => {
     // use Promise to ENSURE we get the access token before using it in other fetch-request
     new Promise((resolve) => resolve(
         // get an access token asynchronously
         getAccessToken()
-    ))
-        .then(token => pfSearch(token))
+    )).then(token => pfSearch(token, url))
+}
+
+// function to perform initial search by criteria
+const petFinder = () => {
+    // clear animal results
+    document.getElementById('pf-animal-cards').innerHTML = '';
+    document.getElementById('pf-result-heading').innerHTML = '';
+    // form search parameters
+    const parameters = [];
+    const type = document.getElementById('pf-search-category').value;
+    if (type !== "") {
+        parameters.push('type=' + type);
+    }
+    const distance = document.getElementById('pf-search-distance').value;
+    if (distance !== "") {
+        parameters.push('distance=' + distance);
+    }
+    const location = document.getElementById('pf-search-location').value;
+    if (location !== "") {
+        parameters.push('location=' + location);
+    } else {
+        parameters.push('location=' + userLocation.city + ', ' + userLocation.state);
+    }
+    // use encodeURI to encode space characters in location (city, state)
+    const url = encodeURI(`https://api.petfinder.com/v2/animals?${parameters.join('&')}`);
+    // 
+    myFetch(url);
 }
 
 // function to convert animal photo to HTML-fragment
@@ -197,8 +212,6 @@ const startSearch = (event) => {
         case 'search-button':
             // save location to sessionStorage
             window.sessionStorage.setItem('location', document.getElementById('search-location').value);
-            // redirect to petfinder.html
-            window.location.href = './petfinder.html';
             break;
         case 'dog-feature':
         case 'cat-feature':
@@ -210,10 +223,18 @@ const startSearch = (event) => {
         case 'barnyard-feature':
             // save location to sessionStorage
             window.sessionStorage.setItem('type', event.target.dataset.pfType);
-            // redirect to petfinder.html
-            window.location.href = './petfinder.html';
             break;
     }
+    // redirect to petfinder.html
+    window.location.href = './petfinder.html';
+}
+// scroll event that calls a 'myFetch(nextPageUrl)' function if the scrolled height is bigger than the whole scroll height of the body minus 5 pixels.
+// source: https://javascript.plainenglish.io/building-an-infinite-scroll-with-vanilla-javascript-32810bae9a8c
+const lazyPagination = () => {
+    const {scrollHeight,scrollTop,clientHeight} = document.documentElement;
+	if(scrollTop + clientHeight > scrollHeight - 5) {
+		myFetch(nextPageUrl);
+	}
 }
 
 // function to identify name of the loaded page and perform particular actions
@@ -225,6 +246,10 @@ window.addEventListener('load', (event) => {
             document.getElementById('pf-search-btn').addEventListener('click', petFinder);
             // trigger location suggestions for user input
             document.getElementById('pf-search-location').addEventListener('input', setLocation);
+
+            // the scroll event
+            window.addEventListener('scroll', lazyPagination);
+
             // get saved data from sessionStorage
             document.getElementById('pf-search-location').value = window.sessionStorage.getItem('location');
             document.getElementById('pf-search-category').value = window.sessionStorage.getItem('type');
