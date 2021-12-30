@@ -207,3 +207,14 @@ h1 {
     padding: 2% 15%;
 
 }
+
+/* Loading Overlay */
+.loading {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+}
+.loading .spinner-border {
+    margin: 0 auto;
+}

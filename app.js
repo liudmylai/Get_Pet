@@ -75,10 +75,15 @@ const displayResults = data => {
         location = userLocation.city + ', ' + userLocation.state;
     }
     // check if server response has a link to the next page
-    nextPageUrl = ('next' in data.pagination._links && 'href' in data.pagination._links.next)?`https://api.petfinder.com${data.pagination._links.next.href}`:'';
-    
+    nextPageUrl = ('next' in data.pagination._links && 'href' in data.pagination._links.next) ? `https://api.petfinder.com${data.pagination._links.next.href}` : '';
+
+    // put search results into DOM
     document.getElementById('pf-result-heading').innerHTML = `We found ${data.pagination.total_count} pets near ${location}`;
     document.getElementById('pf-animal-cards').innerHTML += data.animals.map(animal => animalCard(animal)).join('');
+
+    // hide loading overlay at the end
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('loadingOverlay')).hide();
+
     return data;
 }
 
@@ -102,11 +107,14 @@ const pfSearch = (token, url) => {
 // main function to search and display result
 const myFetch = (url) => {
     // use Promise to ENSURE we get the access token before using it in other fetch-request
-    new Promise((resolve) => resolve(
+    new Promise((resolve) => {
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('loadingOverlay')).show();
+        resolve('Ok');
+    })
         // get an access token asynchronously
-        getAccessToken()
-    )).then(token => pfSearch(token, url))
-    .finally(() => isLazyPaginationStarted = false)
+        .then(() => getAccessToken())
+        .then(token => pfSearch(token, url))
+        .finally(() => isLazyPaginationStarted = false);
 
 }
 
@@ -215,9 +223,7 @@ const setLocation = (event) => {
 }
 
 const startSearch = (event) => {
-    // remove all saved data from sessionStorage
-    sessionStorage.clear();
-    switch (event.target.id) {
+    switch (event.currentTarget.id) {
         case 'search-button':
             // save selected location to sessionStorage
             window.sessionStorage.setItem('location', document.getElementById('search-location').value);
@@ -231,19 +237,16 @@ const startSearch = (event) => {
         case 'scales-fins-other':
         case 'barnyard-feature':
             // save selected animal type to sessionStorage
-            window.sessionStorage.setItem('type', event.target.dataset.pfType);
+            window.sessionStorage.setItem('type', event.currentTarget.dataset.pfType);
             break;
     }
-    // redirect only if data is successfully saved in sessionStorage
-    if (window.sessionStorage.getItem('type') || window.sessionStorage.getItem('location')) {
-        window.location.href = './petfinder.html';
-    }
+    window.location.href = './petfinder.html';
 }
 // scroll event that calls a 'myFetch(nextPageUrl)' function if the scrolled height is bigger than the whole scroll height of the body minus 5 pixels.
 // source: https://javascript.plainenglish.io/building-an-infinite-scroll-with-vanilla-javascript-32810bae9a8c
 const lazyPagination = () => {
     const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
-    if (scrollTop + clientHeight > scrollHeight - 5 && nextPageUrl!=='' && !isLazyPaginationStarted) {
+    if (scrollTop + clientHeight > scrollHeight - 5 && nextPageUrl !== '' && !isLazyPaginationStarted) {
         isLazyPaginationStarted = true;
         myFetch(nextPageUrl);
     }
@@ -270,6 +273,8 @@ window.addEventListener('load', (event) => {
         case 'contact.html':
             break;
         default:
+            // remove all saved data from sessionStorage
+            sessionStorage.clear();
             // trigger location suggestions for user input
             document.getElementById('search-location').addEventListener('input', setLocation);
             // collect all search items and trigger 'startSearch' function for each of them on click

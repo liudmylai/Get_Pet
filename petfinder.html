@@ -78,7 +78,7 @@
                         </select>
                         <input type="text" class="form-control" list="locationOptions" id="pf-search-location"
                             placeholder="Enter City, State or ZIP" autoComplete="off">
-                            <datalist id="locationOptions"></datalist>
+                        <datalist id="locationOptions"></datalist>
                         <button class="btn btn-outline-secondary" id="pf-search-btn" type="button">Search</button>
                     </div>
                 </div>
@@ -104,7 +104,8 @@
         <a href="#"><i class="social-icon fab fa-twitter"></i></a>
         <a href="#"><i class="social-icon fab fa-instagram"></i></a>
         <a href="#"><i class="social-icon fas fa-envelope"></i></a>
-        <p>© Copyright 2022 Get-a-Pet - Powered by <a href="https://www.petfinder.com/developers/" target="_blank">Petfinder API</a></p>
+        <p>© Copyright 2022 Get-a-Pet - Powered by <a href="https://www.petfinder.com/developers/"
+                target="_blank">Petfinder API</a></p>
     </footer>
 
     <!-- Modal Windows  -->
@@ -113,6 +114,18 @@
     <div class="modal fade" tabindex="-1" id="pf-animal-modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg modal-fullscreen-sm-down">
             <div class="modal-content" id="pf-animal-details"></div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="modal fade" id="loadingOverlay" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content text-center loading">
+                <div class="modal-body">
+                    <div class="spinner-border text-light" role="status"></div>
+                    <p>Loading...</p>
+                </div>
+            </div>
         </div>
     </div>
 
