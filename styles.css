@@ -66,8 +66,8 @@ h1 {
     text-align: center;
 }
 .pets-image {
-    max-width: 1024px;
-    margin-bottom: -115px;
+    /* max-width: 1024px; */
+    margin-bottom: -55px;
 }
 
 /* Feature Section */
@@ -173,6 +173,7 @@ h1 {
 }
 .card-media {
     position: relative;
+    background-color: #ddd;
 }
 .card-media:before {
     content: "";
@@ -195,17 +196,14 @@ h1 {
     max-height: 85vh;
 }
 .modal-body h2 {
-    /* margin-top: 5%; */
     font-weight: bold;
 }
 .modal-body h4 {
-    /* margin-top: 5%; */
     font-weight: bold;
     font-size: 1rem;
 }
 .animal-details {
     padding: 2% 15%;
-
 }
 
 /* Loading Overlay */
