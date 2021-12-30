@@ -10,6 +10,14 @@ let nextPageUrl = '';
 // flag to check if a lazy pagination request is already running
 let isLazyPaginationStarted = false;
 
+// When the user scrolls down 20px from the top of the document, show the button
+const scrollFunction = () =>
+    document.getElementById('top-button').style.display = 
+        (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) ? 'block' : 'none';
+
+// When the user clicks on the button, scroll to the top of the document
+const topFunction = () => document.documentElement.scrollTop = 0;
+
 // function to get longtitude and latitude from geolocation.onetrust.com
 // @return location object
 // { "country":"US"
@@ -287,5 +295,11 @@ window.addEventListener('load', (event) => {
                 ));
             break;
     }
+    // configure Top button
+    window.addEventListener('scroll', scrollFunction);
+    document.getElementById('top-button').addEventListener('click', topFunction);
 })
+
+
+
 
