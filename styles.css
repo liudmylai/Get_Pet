@@ -147,6 +147,22 @@ h1 {
     color: #FEA82F;
 }
 
+/* Top button */
+#top-button {
+    display: none; 
+    position: fixed; 
+    bottom: 2rem; 
+    right: 2rem; 
+    color: white; 
+    font-size: 1rem;
+    padding: 0.8rem 1.1rem;
+    background-color: #FEA82F;
+    border: none;
+    z-index: 99;
+}
+#top-button:hover {
+    background-color: #FFC288;
+}
 
 /* Pet Finder Page */
 
@@ -216,19 +232,44 @@ h1 {
 .loading .spinner-border {
     margin: 0 auto;
 }
-/* Top button */
-#top-button {
-    display: none; 
-    position: fixed; 
-    bottom: 2rem; 
-    right: 2rem; 
-    color: white; 
-    font-size: 1rem;
-    padding: 0.8rem 1.1rem;
-    background-color: #FEA82F;
+
+/* Contact Form Page */
+#contacts {
+    padding: 5% 15% 1%;
+}
+.contact-image {
+    position: relative;
+}
+.contact-image img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+.contact-form {
+    background-color: #FCECDD;
+}
+.contact-form h1 {
+    margin: 1rem 0;
+    font-size: 3rem;
+}
+
+.contact-form,
+.contact-form input,
+.contact-form textarea,
+.contact-form button {
+    border-radius: 2rem;
+    padding: 1rem 2rem;
     border: none;
-    z-index: 99;
 }
-#top-button:hover {
+.contact-form textarea {
+    min-height: 169px;
+}
+.contact-form button {
+    background-color: #FEA82F;
+    color: #fff;
+}
+.contact-form button:hover {
     background-color: #FFC288;
-}
+    color: #fff;
+} 
