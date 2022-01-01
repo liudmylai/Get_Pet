@@ -12,8 +12,8 @@ let isLazyPaginationStarted = false;
 
 // When the user scrolls down 20px from the top of the document, show the button
 const scrollFunction = () =>
-    document.getElementById('top-button').style.display = 
-        (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) ? 'block' : 'none';
+    document.getElementById('top-button').style.display =
+    (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) ? 'block' : 'none';
 
 // When the user clicks on the button, scroll to the top of the document
 const topFunction = () => document.documentElement.scrollTop = 0;
@@ -259,6 +259,14 @@ const lazyPagination = () => {
         myFetch(nextPageUrl);
     }
 }
+// function validate contact form and show confirmation
+const submitForm = (event) => {
+    event.currentTarget.classList.add('was-validated');
+    if (event.currentTarget.checkValidity()) {
+        fetch('#').then((data)=>bootstrap.Modal.getOrCreateInstance(document.getElementById('confirm')).show());
+    }
+    event.preventDefault();
+}
 
 // function to identify name of the loaded page and perform particular actions
 window.addEventListener('load', (event) => {
@@ -279,6 +287,7 @@ window.addEventListener('load', (event) => {
             petFinder();
             break;
         case 'contact.html':
+            document.getElementById('contact-form').addEventListener('submit', submitForm);
             break;
         default:
             // remove all saved data from sessionStorage
