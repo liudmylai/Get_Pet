@@ -33,7 +33,17 @@ const topFunction = () => document.documentElement.scrollTop = 0;
 const getUserLocation = (location) => userLocation = location;
 
 // function to get an access token
+// https://www.petfinder.com/developers/v2/docs/#using-the-api
 const getAccessToken = () => {
+    // check if an access token exists and has not expired 
+    if (window.sessionStorage.getItem('access_token') !== null
+        && window.sessionStorage.getItem('expires_in') !== null
+        && Number(window.sessionStorage.getItem('expires_in')) > Date.now()
+    ) {
+        // return the existing access token
+        return window.sessionStorage.getItem('access_token');
+    }
+
     const url = 'https://api.petfinder.com/v2/oauth2/token';
 
     const options = {
@@ -49,6 +59,11 @@ const getAccessToken = () => {
     return fetch(url, options)
         // transform response to object
         .then(response => response.json())
+        .then((token) => {
+            window.sessionStorage.setItem('expires_in', Date.now() + token.expires_in * 1000);
+            window.sessionStorage.setItem('access_token', token.access_token);
+            return token.access_token;
+        })
 }
 
 // function to convert animal object to HTML-fragment
@@ -91,6 +106,8 @@ const displayResults = data => {
 
     // hide loading overlay at the end
     bootstrap.Modal.getOrCreateInstance(document.getElementById('loadingOverlay')).hide();
+    // and reset isLazyPaginationStarted flag
+    isLazyPaginationStarted = false
 
     return data;
 }
@@ -100,7 +117,7 @@ const pfSearch = (token, url) => {
 
     const options = {
         method: 'GET',
-        headers: new Headers({ 'Authorization': `Bearer ${token.access_token}` })
+        headers: new Headers({ 'Authorization': `Bearer ${token}` })
     }
 
     fetch(url, options)
@@ -114,16 +131,15 @@ const pfSearch = (token, url) => {
 
 // main function to search and display result
 const myFetch = (url) => {
+    // show loading overlay
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('loadingOverlay')).show();
+
     // use Promise to ENSURE we get the access token before using it in other fetch-request
     new Promise((resolve) => {
-        bootstrap.Modal.getOrCreateInstance(document.getElementById('loadingOverlay')).show();
-        resolve('Ok');
-    })
         // get an access token asynchronously
-        .then(() => getAccessToken())
+        resolve(getAccessToken());
+    })
         .then(token => pfSearch(token, url))
-        .finally(() => isLazyPaginationStarted = false);
-
 }
 
 // function to perform initial search by criteria
@@ -134,22 +150,22 @@ const petFinder = () => {
     // form search parameters
     const parameters = [];
     const type = document.getElementById('pf-search-category').value;
-    if (type !== "") {
+    if (type !== '') {
         parameters.push('type=' + type);
     }
     const distance = document.getElementById('pf-search-distance').value;
-    if (distance !== "") {
+    if (distance !== '') {
         parameters.push('distance=' + distance);
     }
     const location = document.getElementById('pf-search-location').value;
-    if (location !== "") {
+    if (location !== '') {
         parameters.push('location=' + location);
-    } else {
+    } else if ('city' in userLocation && 'state' in userLocation) {
         parameters.push('location=' + userLocation.city + ', ' + userLocation.state);
     }
-    // use encodeURI to encode space characters in location (city, state)
+    // use encodeURI() to encode space characters in location (city, state)
     const url = encodeURI(`https://api.petfinder.com/v2/animals?${parameters.join('&')}`);
-    // 
+    // send request to the server by URL
     myFetch(url);
 }
 
@@ -229,8 +245,8 @@ const setLocation = (event) => {
             .finally(() => setTimeout(() => input.focus(), 100))
     }
 }
-
-const startSearch = (event) => {
+// function to collect search criteria on Home page and redirect to PetFinder page
+const prepareSearch = (event) => {
     switch (event.currentTarget.id) {
         case 'search-button':
             // save selected location to sessionStorage
@@ -248,6 +264,7 @@ const startSearch = (event) => {
             window.sessionStorage.setItem('type', event.currentTarget.dataset.pfType);
             break;
     }
+    // redirect user to PetFinder page to perform search
     window.location.href = './petfinder.html';
 }
 // scroll event that calls a 'myFetch(nextPageUrl)' function if the scrolled height is bigger than the whole scroll height of the body minus 5 pixels.
@@ -263,7 +280,7 @@ const lazyPagination = () => {
 const submitForm = (event) => {
     event.currentTarget.classList.add('was-validated');
     if (event.currentTarget.checkValidity()) {
-        fetch('#').then((data)=>bootstrap.Modal.getOrCreateInstance(document.getElementById('confirm')).show());
+        fetch('#').then((data) => bootstrap.Modal.getOrCreateInstance(document.getElementById('confirm')).show());
     }
     event.preventDefault();
 }
@@ -281,9 +298,14 @@ window.addEventListener('load', (event) => {
             // the scroll event
             window.addEventListener('scroll', lazyPagination);
 
-            // get saved data from sessionStorage
-            document.getElementById('pf-search-location').value = window.sessionStorage.getItem('location');
-            document.getElementById('pf-search-category').value = window.sessionStorage.getItem('type');
+            // get saved data from sessionStorage ...
+            if (window.sessionStorage.getItem('location') !== null) {
+                document.getElementById('pf-search-location').value = window.sessionStorage.getItem('location');
+            }
+            if (window.sessionStorage.getItem('type') !== null) {
+                document.getElementById('pf-search-category').value = window.sessionStorage.getItem('type');
+            }
+            // ... and perform search on PetFinder.com by these criteria
             petFinder();
             break;
         case 'contact.html':
@@ -294,9 +316,9 @@ window.addEventListener('load', (event) => {
             sessionStorage.clear();
             // trigger location suggestions for user input
             document.getElementById('search-location').addEventListener('input', setLocation);
-            // collect all search items and trigger 'startSearch' function for each of them on click
+            // collect all search items and trigger 'prepareSearch' function for each of them on click
             document.querySelectorAll('.search-item')
-                .forEach(element => element.addEventListener('click', startSearch));
+                .forEach(element => element.addEventListener('click', prepareSearch));
             // toggle 'other pets' dropdown list by clicking
             document.querySelectorAll('.other-pets')
                 .forEach(element => element.addEventListener('click', () =>
