@@ -68,7 +68,7 @@ const getAccessToken = () => {
 
 // function to convert animal object to HTML-fragment
 const animalCard = animal =>
-    `<div class="pf-search-column col-lg-3 col-md-4">
+    `<div class="pf-search-column col-xl-3 col-lg-4 col-md-6">
     <div class="card animal-card" onclick="showAnimalInfo(${animal.id})" data-bs-toggle="modal" data-bs-target="#pf-animal-modal">
         <div class="card-media">
             <img src="${(animal.primary_photo_cropped !== null && 'small' in animal.primary_photo_cropped) ? animal.primary_photo_cropped.small : 'images/card-placeholder.png'}"

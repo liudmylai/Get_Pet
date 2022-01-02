@@ -331,9 +331,8 @@ h1 {
     }
 }
 
-/* Small: iPads, Tablets 
- * X-Small: Mobile devices */
-@media screen and (max-width: 767px) {
+/* Small: iPads, Tablets */
+@media screen and (min-width: 576px) and (max-width: 767px) {
     h1 {
         font-size: 3rem;
     }
@@ -348,5 +347,38 @@ h1 {
     }
     #testimonials h2 {
         font-size: 1.5rem;
+    }
+}
+
+/* X-Small: Mobile devices */
+@media screen and (max-width: 575px) {
+    h1 {
+        font-size: 3rem;
+    }
+    .search-form {
+        margin: 3rem auto;
+    }
+    .container-fluid {
+        padding: 1% 5%;
+    }
+    #title p {
+        font-size: 1rem;
+    }
+    #pets,
+    .contact-image {
+        display: none;
+    }
+    #testimonials h2 {
+        font-size: 1.5rem;
+    }
+    .nav-link,
+    li.search-item {
+        font-size: 1.5rem;
+    }
+    #contacts {
+        padding: 5% 5%;
+    }
+    #contacts h1 {
+        font-size: 2.5rem;
     }
 }
