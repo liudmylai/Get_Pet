@@ -311,3 +311,42 @@ h1 {
     background: #82ce34;
     border: none;
 }
+
+/* Large: Large screens. */
+@media screen and (min-width: 992px) and (max-width: 1191px) {
+    .pets-image {
+        max-width: 990px;
+        margin-bottom: -52px;
+    }
+}
+
+/* Medium: Small screens, laptops. */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    h1 {
+        font-size: 3.5rem;
+    }
+    .pets-image {
+        max-width: 750px;
+        margin-bottom: -40px;
+    }
+}
+
+/* Small: iPads, Tablets 
+ * X-Small: Mobile devices */
+@media screen and (max-width: 767px) {
+    h1 {
+        font-size: 3rem;
+    }
+    .search-form {
+        margin: 3rem auto;
+    }
+    #title p {
+        font-size: 1rem;
+    }
+    #pets {
+        display: none;
+    }
+    #testimonials h2 {
+        font-size: 1.5rem;
+    }
+}
