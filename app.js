@@ -94,18 +94,21 @@ const storeData = data => {
 // function to display results
 const displayResults = data => {
     let location = document.getElementById('pf-search-location').value;
+
     if (location === '') {
         location = userLocation.city + ', ' + userLocation.state;
     }
-    // check if server response has a link to the next page
-    nextPageUrl = ('_links' in data.pagination && 'next' in data.pagination._links && 'href' in data.pagination._links.next) ? `https://api.petfinder.com${data.pagination._links.next.href}` : '';
+
+    // hide loading overlay at the end
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('loadingOverlay')).hide();
 
     // put search results into DOM
     document.getElementById('pf-result-heading').innerHTML = `We found ${data.pagination.total_count} pets near ${location}`;
     document.getElementById('pf-animal-cards').innerHTML += data.animals.map(animal => animalCard(animal)).join('');
 
-    // hide loading overlay at the end
-    bootstrap.Modal.getOrCreateInstance(document.getElementById('loadingOverlay')).hide();
+    // check if server response has a link to the next page
+    nextPageUrl = ('_links' in data.pagination && 'next' in data.pagination._links && 'href' in data.pagination._links.next) ? `https://api.petfinder.com${data.pagination._links.next.href}` : '';
+
     // and reset isLazyPaginationStarted flag
     isLazyPaginationStarted = false
 
