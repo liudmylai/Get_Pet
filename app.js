@@ -98,7 +98,7 @@ const displayResults = data => {
         location = userLocation.city + ', ' + userLocation.state;
     }
     // check if server response has a link to the next page
-    nextPageUrl = ('next' in data.pagination._links && 'href' in data.pagination._links.next) ? `https://api.petfinder.com${data.pagination._links.next.href}` : '';
+    nextPageUrl = ('_links' in data.pagination && 'next' in data.pagination._links && 'href' in data.pagination._links.next) ? `https://api.petfinder.com${data.pagination._links.next.href}` : '';
 
     // put search results into DOM
     document.getElementById('pf-result-heading').innerHTML = `We found ${data.pagination.total_count} pets near ${location}`;
