@@ -268,10 +268,9 @@ const prepareSearch = (event) => {
     window.location.href = './petfinder.html';
 }
 // scroll event that calls a 'myFetch(nextPageUrl)' function if the scrolled height is bigger than the whole scroll height of the body minus 5 pixels.
-// source: https://javascript.plainenglish.io/building-an-infinite-scroll-with-vanilla-javascript-32810bae9a8c
+// source: https://stackoverflow.com/questions/9439725/how-to-detect-if-browser-window-is-scrolled-to-bottom
 const lazyPagination = () => {
-    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
-    if (scrollTop + clientHeight > scrollHeight - 5 && nextPageUrl !== '' && !isLazyPaginationStarted) {
+    if (window.innerHeight + window.pageYOffset > document.body.offsetHeight - 5 && nextPageUrl !== '' && !isLazyPaginationStarted) {
         isLazyPaginationStarted = true;
         myFetch(nextPageUrl);
     }
